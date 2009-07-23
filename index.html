@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>django-iphone-push Application</title>
+
+        <!-- META -->
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="language" content="en" />
+
+        <!-- CSS -->
+        <link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="main">
+            <div id="logo"></div>
+            <div id="content">
+                <h1>django-iphone-push</h1>
+                <h2>Add iPhone Push notifications to a Django Project quickly and easily<h2>
+                <h3>Introduction</h3>
+                <p>This is a very simple Django project that will allow you to add the ability
+                  to push notifications to your iPhone Application quickly and easily.</p>
+                <p>As you can see from the shot from the left. I used this code to implement
+                  push notifications for my upcoming iPhone Application called Tube Notify. I'm
+                  sure release this will now mean someone might copycat me, but I wanted to
+                  share this code so that others could get through the mystification of Apple's
+                  APN service.</p>
+                <p>I'll add to this page with more examples at some point in the not-to-distant future.</p>
+                <h3>License</h3>
+                <p>You are free to use this code for whatever purpose you like in FREE iPhone
+                  applications. However, if you want to charge for your application, you must
+                  ask permission first. Sorry.</p>
+                <h3>Disclaimer</h3>
+                <p>Naturally, I am not responsible for this. If you screw up and make it send
+                  notifications to lots of phones and end up upsetting Apple, that's YOUR fault
+                  not mine.</p>
+                <h3>Installation</h3>
+                <p>This application at least requires Python 2.5. It does make use of some Python 2.6 
+                  features. If you want to use on Python 2.5 you'll need the 
+                  <a href="http://pypi.python.org/pypi/ssl/">SSL Socket backport</a>.</p>
+                <p>To add this to an existing project, use the git submodule command within your
+                  django project and then add to the INSTALLED_APPS.</p>
+                <p>I use <a href="http://south.aeracode.org/">south</a> for migrations. You can use them or just 
+                  syncdb.</p>
+                <p>You then need to ensure you sort out your push certificates. You'll
+                  need a sandbox one and a live one. To do this there are a variety of guides
+                  but the best one is probably the one at 
+                  <a href="http://www.macoscoders.com/2009/05/17/iphone-apple-push-notification-service-apns/">MacCoders</a>.
+                  For this application you need to ensure they are in .pem format.</p>
+                <p>You then need to set up your settings.py to look something like this:</p>
+                <pre># Full path to the APN Certificate / Private Key .pem
+IPHONE_SANDBOX_APN_PUSH_CERT = os.path.join(PROJECT_ROOT, "iphone_ck.pem")
+IPHONE_LIVE_APN_PUSH_CERT = os.path.join(PROJECT_ROOT, "iphone_live.pem")
+
+# Set this to the hostname for the outgoing push server
+IPHONE_SANDBOX_APN_HOST = 'gateway.sandbox.push.apple.com'
+IPHONE_LIVE_APN_HOST = 'gateway.push.apple.com'
+
+# Set this to the hostname for the feedback server
+IPHONE_SANDBOX_FEEDBACK_HOST = 'feedback.sandbox.push.apple.com'
+IPHONE_LIVE_FEEDBACK_HOST = 'feedback.push.apple.com'
+</pre>
+              <p>Note the full path to the .pem files. I use a shortcut of getting the PROJECT_ROOT
+                at the top of my settings.py for various things. For reference:</p>
+              <pre>import os
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+</pre>
+              <p>With all that done, you're ready to use the app!</p>
+              <h3>Usage</h3>
+              <p>I won't go into how to set up your django project to make use of this. However, 
+                in terms of sending messages you would be good to read <a href="http://developer.apple.com/iphone/library/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html">Apple's documentation</a>
+                on the topic. It covers the detail of the send_message function in the iPhone.</p>
+              <p>There is a way to send to a group of phones. This is advisable when dealing with lots
+                of notifications around the same time. Simply because Apple says so in their documentation.</p>
+            </div>
+            <div id="footer">&copy; 2009 <a href="http://leenux.org.uk/">Lee Packham</a></div>
+        </div>
+    </body>
+</html>
